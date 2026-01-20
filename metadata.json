@@ -1,0 +1,5 @@
+{
+  "name": "Finanz-Manager v3",
+  "description": "A professional-grade financial management application with profile support, tax calculation, PDF export, and Discord webhook integration.",
+  "requestFramePermissions": []
+}
