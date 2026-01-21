@@ -1,6 +1,6 @@
 
-import { jsPDF } from 'jspdf';
-import 'jspdf-autotable';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
 import { Profile, CalcResult } from '../types';
 
 const fmtUSD = (n: number) => n.toLocaleString("en-US", { style: "currency", currency: "USD" });
@@ -33,7 +33,7 @@ export const exportToCsv = (profile: Profile) => {
 };
 
 export const exportToPdf = (profile: Profile, results: CalcResult, userDisplay: string) => {
-  const doc = new jsPDF() as any;
+  const doc = new jsPDF();
 
   // Header Background
   doc.setFillColor(15, 23, 42);
@@ -65,7 +65,7 @@ export const exportToPdf = (profile: Profile, results: CalcResult, userDisplay: 
   doc.text(`Steuern (${profile.taxRate}%):`, 145, 65); doc.text(fmtUSD(results.tax), 195, 65, { align: "right" });
   
   doc.setFontSize(11);
-  doc.setFont(undefined, 'bold');
+  doc.setFont("helvetica", "bold");
   doc.text(`Netto-Gewinn:`, 145, 73); doc.text(fmtUSD(results.net), 195, 73, { align: "right" });
 
   // Table
@@ -76,7 +76,8 @@ export const exportToPdf = (profile: Profile, results: CalcResult, userDisplay: 
     (e.type === 'Einnahme' ? '+' : '-') + fmtUSD(e.amount)
   ]);
 
-  doc.autoTable({
+  // Use the autoTable function directly instead of doc.autoTable
+  autoTable(doc, {
     startY: 85,
     head: [['Datum', 'Beschreibung', 'Typ', 'Betrag']],
     body: tableData,
